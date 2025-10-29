@@ -1,0 +1,118 @@
+{
+  "name": "Linear",
+  "trials": 8,
+  "convergence": {
+    "h_c_threshold": 0.5,
+    "vk_c_threshold": 10.0,
+    "sigma_k_threshold": 10.0,
+    "B_initial_log10_mean_threshold": 0.5,
+    "B_initial_log10_sigma_threshold": 0.5,
+    "P_initial_log10_mean_threshold": 0.5,
+    "P_initial_log10_sigma_threshold": 0.5,
+    "a_late_threshold": 0.5,
+    "L_radio_log10_mean_threshold": 0.5,
+    "epsilon_L": 0.5
+  },
+  "n_gpu": 0,
+
+  "arch": {
+    "type": "ModelLinear",
+    "args": {
+        "input_shape": [3, 32, 32],
+        "num_parameters": 2
+    }
+  },
+
+  "weights_initializer": {
+      "type": "InitializerKaiming",
+      "args": {}
+  },
+
+  "training_data_loader": {
+    "type": "LoaderMultichannelArray",
+    "args": {
+      "dataset_path": "data/example_generator_magrot/dataset_train.csv",
+      "statistic_path": "data/example_generator_magrot/statistics_train.json",
+      "batch_size": 8,
+      "num_workers": 1,
+      "filter_inputs": [9, 10, 11],
+      "filter_labels": [12, 13],
+      "shuffle": true,
+      "normalize": false,
+      "standardize": true
+    }
+  },
+
+  "validation_data_loader": {
+    "type": "LoaderMultichannelArray",
+    "args": {
+      "dataset_path": "data/example_generator_magrot/dataset_test.csv",
+      "statistic_path": "data/example_generator_magrot/statistics_train.json",
+      "batch_size": 8,
+      "num_workers": 1,
+      "filter_inputs": [9, 10, 11],
+      "filter_labels": [12, 13],
+      "shuffle": false,
+      "normalize": false,
+      "standardize": true
+    }
+  },
+
+  "test_data_loader": {
+    "type": "LoaderMultichannelArray",
+    "args": {
+      "dataset_path": "data/example_generator_magrot/dataset_test.csv",
+      "statistic_path": "data/example_generator_magrot/statistics_train.json",
+      "batch_size": 1,
+      "num_workers": 1,
+      "filter_inputs": [9, 10, 11],
+      "filter_labels": [12, 13],
+      "shuffle": false,
+      "normalize": false,
+      "standardize": true
+    }
+  },
+
+  "optimizer": {
+    "type": "Adam",
+    "args":{
+      "lr": 1e-4,
+      "weight_decay": 0.0
+    }
+  },
+
+  "loss": {
+      "type": "LossMSE",
+      "args": {}
+  },
+
+  "metric": {
+      "type": "MetricAccuracyMSE",
+      "args": {}
+  },
+
+  "lr_scheduler": {
+    "type": "StepLR",
+    "args": {
+      "step_size": 1024,
+      "gamma": 0.1
+    }
+  },
+
+  "resume_training": {
+    "resume": false
+  },
+
+  "trainer": {
+    "epochs": 1024,
+    "save_dir": "data/example_learning_nn",
+    "save_period": 1000,
+    "verbosity": 1,
+    "early_stop": 128,
+    "tensorboard": true
+  },
+
+  "infer": {
+    "save_dir": "data/example_inference_nn"
+  }
+}
