@@ -1,0 +1,17 @@
+{
+  "[TotalSimulation]": {
+    "time": 260.93961000442505
+  },
+  "[InitializePopulation]": {
+    "time": 0.516481876373291
+  },
+  "[MagnetoRotationalEvolution]": {
+    "time": 51.82114315032959
+  },
+  "[RadioDetection]": {
+    "time": 8.910840034484863
+  },
+  "[Export]": {
+    "time": 0.06576418876647949
+  }
+}

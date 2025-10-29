@@ -1,0 +1,14 @@
+{
+  "[TotalSimulation]": {
+    "time": 35.23546028137207
+  },
+  "[InitializePopulation]": {
+    "time": 1.221134901046753
+  },
+  "[DynamicalEvolution]": {
+    "time": 33.017107009887695
+  },
+  "[Export]": {
+    "time": 0.9958081245422363
+  }
+}
