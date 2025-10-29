@@ -1,0 +1,185 @@
+"""
+    JSON profile to RST table.
+
+    This script parses a timing profile from TimeWith contexts and generates an
+    RST table representation to include in our documentation automagically.
+
+    Display help message to run the code:
+
+    python json_profile_to_rst_table.py --help
+
+    Displays all the relevant arguments that can be used.
+
+    Authors:
+
+        Alberto Garcia Garcia (garciagarcia@ice.csic.es)
+"""
+
+import argparse
+import json
+import typing
+
+fields = {"elapsed_time": "Time [s]", "cumulative_time": "Cumulative [s]"}
+accumulate = "elapsed_time"
+
+WIDTH = 20
+FLOAT_WIDTH = 8
+
+
+def generate_header(fields: typing.List) -> str:
+    """
+    Generates a header for the table providing a list of field names with
+    automatic width handling.
+
+    Args:
+        fields (List): Names for the fields (columns) excluding the first one.
+
+    Returns:
+        (str): An RST string representation for the table header.
+    """
+    name = "Context"
+    row_str = "| " + name + " " * (WIDTH - len(name) - 2) + " |"
+    for field in fields:
+        row_str += " " + field + " " * (WIDTH - len(field) - 2) + " |"
+    row_str += "\n"
+    row_str += "+"
+    for _ in range(len(fields) + 1):
+        row_str += "=" * WIDTH + "+"
+    row_str += "\n"
+    return row_str
+
+
+def generate_multicolumn(name: str, columns: int) -> str:
+    """
+    Generates a multicolumn spawning a number of specified fields and populated
+    with a given name and automatic width handling.
+
+    Args:
+        name (str): Text to populate the row.
+        columns (int): Number of fields or columns to take.
+
+    Returns:
+        (str): An RST string representation of the multicolumn.
+    """
+    multicolumn_str = (
+        "| "
+        + name
+        + " " * (WIDTH * (columns + 1) + columns - len(name) - 2)
+        + " |\n"
+    )
+    return multicolumn_str
+
+
+def generate_separator(fields: int) -> str:
+    """
+    Generates a separator for the table with automatic width for it.
+
+    Args:
+        fields (int): Number of columns or fields (excluding the checkpoint names).
+
+    Returns:
+        (str): An RST string containing the separator representation.
+    """
+    separator_str = "+"
+    for _ in range(fields + 1):
+        separator_str += "-" * WIDTH + "+"
+    separator_str += "\n"
+    return separator_str
+
+
+def generate_row(name: str, values: typing.List) -> str:
+    """
+    Generates a row for the table with the given checkpoint name and the values
+    for the fields (which spawn one column each one). The width is automatically
+    adjusted to a maximum WIDTH per column.
+
+    Args:
+        name (str): Name of the checkpoint (row).
+        values (List): Values for each field in the checkpoint (columns).
+
+    Returns:
+        (str): An RST string representation of the row with newline at the end.
+    """
+    row_str = "| " + name + " " * (WIDTH - len(name) - 2) + " |"
+    for v in values:
+        row_str += (
+            " "
+            + ("{:" + str(FLOAT_WIDTH) + ".4f}").format(v)
+            + " " * (WIDTH - FLOAT_WIDTH - 2)
+            + " |"
+        )
+    row_str += "\n"
+    return row_str
+
+
+def print_table(filename: str) -> None:
+    """
+    Prints a table in RST format by parsing the specified JSON profile file.
+
+    Args:
+        filename (str): Path to the JSON profile to parse.
+    """
+
+    with open(filename, "r") as f:
+        data = json.load(f)
+
+        # Accumulate total time field.
+        accumulated_time = 0.0
+
+        # Add a separator and the header with the selected field names.
+        table_str = generate_separator(len(fields.items()))
+        table_str += generate_header([v for _, v in fields.items()])
+
+        for key, value in data.items():
+            # For each context, place a multicolumn with its name.
+            table_str += generate_multicolumn(key, len(fields.items()))
+            table_str += generate_separator(len(fields.items()))
+
+            # Traverse each checkpoint of the context.
+            for k, v in value.items():
+                if k == "time":
+                    continue
+
+                # Accumulate this checkpoint total time.
+                accumulated_time += v[accumulate]
+
+                # Get the values for the tracked fields in the table and insert
+                # a row with the name of the checkpoint and the values for those
+                # selected fields.
+                time_values = [x for kk, x in v.items() if kk in fields.keys()]
+                table_str += generate_row(k, time_values)
+                table_str += generate_separator(len(fields.items()))
+
+        # Insert an empty multicolumn to separate total time.
+        table_str += generate_multicolumn(" ", len(fields.items()))
+        table_str += generate_separator(len(fields.items()))
+
+        # Insert total time row.
+        table_str += generate_multicolumn(
+            (
+                "Total "
+                + fields[accumulate]
+                + ": "
+                + ("{:" + str(FLOAT_WIDTH) + ".4f}").format(accumulated_time)
+            ),
+            len(fields.items()),
+        )
+        table_str += generate_separator(len(fields.items()))
+
+        print(table_str)
+
+
+if __name__ == "__main__":
+    args = argparse.ArgumentParser(description="MLPoppyns parameters")
+
+    args.add_argument(
+        "--filename",
+        nargs="?",
+        type=str,
+        default=None,
+        help="Path to the JSON profile to tabulate",
+    )
+
+    args = args.parse_args()
+
+    print_table(args.filename)
