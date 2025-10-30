@@ -7,7 +7,7 @@ machine. For this, you need `conda` to be installed on your machine. The code ha
 
 1. First, you need to clone the repository on your computer. To get the files from our GitHub repository, run
    ```commandline
-   git clone https://github.com/ice-csic-astroexotic/ML-Poppyns.git
+   git clone https://github.com/ice-csic-astroexotic/ML-Poppyns-Open.git
    ```
 
 2. The repo contains an environment file that can be installed by running
@@ -24,7 +24,7 @@ machine. For this, you need `conda` to be installed on your machine. The code ha
 
         To set up the environment on the PIC servers, we specify the full path where the environment will be saved:
         ```commandline
-        conda env create --prefix /data/magnesia/scratch/conda/env/mlpoppyns --file  /data/magnesia/software/ML-poppyns/environment.yaml
+        conda env create --prefix /data/magnesia/scratch/conda/envs/mlpoppyns --file  /data/magnesia/software/ML-Poppyns/environment.yaml
         ```
 
     On your local machine, the environment can be activated using 
@@ -37,7 +37,7 @@ machine. For this, you need `conda` to be installed on your machine. The code ha
         
         On the PIC, the environment can be activated using
         ```commandline
-        conda activate /data/magnesia/scratch/conda/env/mlpoppyns
+        conda activate /data/magnesia/scratch/conda/envs/mlpoppyns
         ```
 
 3. To install the `mlpoppyns` package locally and work with the code, navigate to the cloned software repository and run
