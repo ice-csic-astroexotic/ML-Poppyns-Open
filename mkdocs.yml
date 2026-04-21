@@ -1,6 +1,6 @@
 site_name: ML-Poppyns documentation
 # Comment out the site_url for now as we cannot deploy this yet.
-#site_url: https://mydomain.org/mysite
+site_url: https://ice-csic-astroexotic.github.io/ML-Poppyns-Open/
 theme:
   # Load materials theme and adjust some colour settings.
   name: material
@@ -25,8 +25,8 @@ theme:
     - navigation.tabs
     - content.code.copy
 # Adding link to github repo.
-repo_url: https://github.com/ice-csic-astroexotic/ML-Poppyns
-repo_name: ML-Poppyns
+repo_url: https://github.com/ice-csic-astroexotic/ML-Poppyns-Open
+repo_name: ML-Poppyns-Open
 nav:
   # Overall navigation structure of the documentation.
   - Home: index.md
