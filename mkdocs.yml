@@ -54,7 +54,7 @@ nav:
           - code/simulator/telemetry.md
       - Generator:
           #- code/generator/generator.md
-          - code/generator/maps.md
+          #- code/generator/maps.md
       - Learning:
           - code/learning/learning.md
           - code/learning/initializers.md
@@ -73,6 +73,7 @@ nav:
           - code/utilities/samplers.md
 exclude_docs: |
   code/generator/generator.md
+  code/generator/maps.md
 plugins:
   # Adding plugin to autogenerate documentation.
   - mkdocstrings:
