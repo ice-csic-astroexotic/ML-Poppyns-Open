@@ -71,6 +71,8 @@ nav:
           - code/utilities/experiment_helpers.md
           - code/utilities/PIC_scripts.md
           - code/utilities/samplers.md
+exclude_docs: |
+  code/generator/generator.md
 plugins:
   # Adding plugin to autogenerate documentation.
   - mkdocstrings:
