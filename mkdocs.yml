@@ -52,7 +52,7 @@ nav:
           - code/simulator/multiband_emission.md
           - code/simulator/multiband_surveys.md
           - code/simulator/telemetry.md
-      - Generator:
+      #- Generator:
           #- code/generator/generator.md
           #- code/generator/maps.md
       - Learning:
@@ -72,8 +72,8 @@ nav:
           - code/utilities/PIC_scripts.md
           - code/utilities/samplers.md
 exclude_docs: |
-  code/generator/generator.md
-  code/generator/maps.md
+  - code/generator/generator.md
+  - code/generator/maps.md
 plugins:
   # Adding plugin to autogenerate documentation.
   - mkdocstrings:
