@@ -2,13 +2,10 @@ name: Deploy MkDocs
 
 on: push
 
-permissions:
-  contents: write
-
 jobs:
   deploy:
     # Name of job
-    name: Run tests
+    name: Deploy documentation
     # Operating system that is being used.
     runs-on: ubuntu-latest
     # Specify defaults: we run commands on a bash shell.
@@ -18,7 +15,7 @@ jobs:
         shell: bash -el {0}
     # Specify permissions to access code in repository.
     permissions:
-      contents: read
+      contents: write
     # Specific steps to be executed for `Run tests` job.
     steps:
       # Free up disk space to avoid action failing.
