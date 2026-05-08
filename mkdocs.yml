@@ -52,9 +52,9 @@ nav:
           - code/simulator/multiband_emission.md
           - code/simulator/multiband_surveys.md
           - code/simulator/telemetry.md
-      #- Generator:
-          #- code/generator/generator.md
-          #- code/generator/maps.md
+      - Generator:
+          - code/generator/generator.md
+          - code/generator/maps.md
       - Learning:
           - code/learning/learning.md
           - code/learning/initializers.md
@@ -80,13 +80,13 @@ plugins:
       handlers:
         python:
           options:
+            docstring_style: google
             show_source: true
             heading_level: 2
             show_symbol_type_toc: true
             show_root_heading: true
             show_root_full_path: true
             show_root_toc_entry: true
-            filters: None
 
   # Adding plugin to generate search bar.
   - search
